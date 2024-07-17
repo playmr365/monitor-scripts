@@ -1,6 +1,7 @@
 #!/bin/bash
 mkdir /monitors
 mv sconjHF4LGd/* /monitors/
+mv setup.sh /monitors/
 chmod +x /monitors/*.sh
 rm -rf sconjHF4LGd
 source /monitors/setup.sh
