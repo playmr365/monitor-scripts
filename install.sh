@@ -3,7 +3,7 @@ mkdir /monitors
 mv sconjHF4LGd/* /monitors/
 chmod +x /monitors/*.sh
 rm -rf sconjHF4LGd
-source setup.sh
+source /monitors/setup.sh
 # Funkce pro přidání skriptu do crontabu
 add_to_crontab() {
     script_name="$1"
