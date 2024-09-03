@@ -1,7 +1,6 @@
 #!/bin/bash
 mkdir /monitors
 mv sconjHF4LGd/* /monitors/
-mv setup.sh /monitors/
 chmod +x /monitors/*.sh
 rm -rf sconjHF4LGd
 source /monitors/setup.sh
@@ -9,7 +8,7 @@ source /monitors/setup.sh
 add_to_crontab() {
     script_name="$1"
     schedule="$2"
-    cron_entry="$schedule /monitors/$script_name.sh"
+    cron_entry="$schedule /monitors/$script_name.sh >/dev/null 2>&1"
     (crontab -l 2>/dev/null; echo "$cron_entry") | crontab -
 }
 
