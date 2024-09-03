@@ -9,7 +9,7 @@ source /monitors/setup.sh
 add_to_crontab() {
     script_name="$1"
     schedule="$2"
-    cron_entry="$schedule root /monitors/$script_name.sh"
+    cron_entry="$schedule /monitors/$script_name.sh"
     (crontab -l 2>/dev/null; echo "$cron_entry") | crontab -
 }
 
