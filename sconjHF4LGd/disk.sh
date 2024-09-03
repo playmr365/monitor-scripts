@@ -1,5 +1,5 @@
 #!/bin/bash
-source setup.sh
+source /monitors/values.sh
 # Funkce pro získání volného místa v kořenovém adresáři v GB
 get_free_space() {
     free_space=$(df -B1G / | awk 'NR==2{print $4}')
