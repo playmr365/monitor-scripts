@@ -62,25 +62,28 @@ set_server_type() {
 
 # Funkce pro kontrolu stavu Zabbix agenta přes systemctl
 check_zabbix_agent_version() {
-    # Kontrola, zda je zabbix-agent aktivní
-    systemctl is-active --quiet zabbix-agent
+    # Kontrola, zda je nainstalovaný Zabbix agent (verze 1 nebo 2)
+    systemctl list-units --type=service | grep -E "zabbix-agent|zabbix-agent2" >/dev/null 2>&1
     zabbix_status=$?
 
     if [[ $zabbix_status -eq 0 ]]; then
-        echo "Zabbix agent je aktivní."
-        ZABBIX_AGENT_STATUS="active"
-    else
-        # Kontrola, zda je jednotka zabbix-agent dostupná
-        systemctl status zabbix-agent >/dev/null 2>&1
-        if [[ $? -eq 4 ]]; then
-            echo "Zabbix agent jednotka nenalezena."
-            ZABBIX_AGENT_STATUS="unit_not_found"
+        # Zjištění, zda je aktivní Zabbix agent nebo Zabbix agent 2
+        if systemctl is-active --quiet zabbix-agent; then
+            echo "Zabbix agent verze 1 je aktivní."
+            ZABBIX_AGENT_VERSION="v1"
+        elif systemctl is-active --quiet zabbix-agent2; then
+            echo "Zabbix agent verze 2 je aktivní."
+            ZABBIX_AGENT_VERSION="v2"
         else
-            echo "Zabbix agent není aktivní."
-            ZABBIX_AGENT_STATUS="inactive"
+            echo "Zabbix agent (verze 1 nebo 2) je nainstalován, ale není aktivní."
+            ZABBIX_AGENT_VERSION="inactive"
         fi
+    else
+        echo "Zabbix agent (verze 1 nebo 2) není nainstalován."
+        ZABBIX_AGENT_VERSION="not_installed"
     fi
 }
+
 
 
 # Funkce pro zapsání NTfy serveru do values.sh
