@@ -16,6 +16,7 @@ add_to_crontab() {
 }
 
 # Funkce pro zapsání výběru serveru do souboru values.sh
+# Funkce pro zapsání serverového typu a služeb do values.sh
 set_server_type() {
     echo "Vyberte typ serveru:"
     echo "a) Web server"
@@ -53,16 +54,35 @@ set_server_type() {
             ;;
     esac
 
-    # Zapsání vybraného typu serveru a služeb do souboru values.sh
+    # Zapsání vybraného typu serveru a služeb do souboru values.sh s uvozovkami kolem názvů služeb
     echo "SERVER_TYPE=\"$SERVER_TYPE\"" > /monitors/values.sh
-    echo "SERVICES=(${SERVICES[@]})" >> /monitors/values.sh
+    echo "SERVICES=(\"${SERVICES[@]}\")" >> /monitors/values.sh
 }
 
+
 # Funkce pro zjištění verze Zabbix agenta
-get_zabbix_agent_version() {
-    zabbix_version=$(zabbix_agentd -V 2>/dev/null | grep -oP "v\d+\.\d+" || echo "not_installed")
-    echo "$zabbix_version"
+# Funkce pro kontrolu stavu Zabbix agenta přes systemctl
+check_zabbix_agent_version() {
+    # Kontrola, zda je zabbix-agent aktivní
+    systemctl is-active --quiet zabbix-agent
+    zabbix_status=$?
+
+    if [[ $zabbix_status -eq 0 ]]; then
+        echo "Zabbix agent je aktivní."
+        ZABBIX_AGENT_STATUS="active"
+    else
+        # Kontrola, zda je jednotka zabbix-agent dostupná
+        systemctl status zabbix-agent >/dev/null 2>&1
+        if [[ $? -eq 4 ]]; then
+            echo "Zabbix agent jednotka nenalezena."
+            ZABBIX_AGENT_STATUS="unit_not_found"
+        else
+            echo "Zabbix agent není aktivní."
+            ZABBIX_AGENT_STATUS="inactive"
+        fi
+    fi
 }
+
 
 # Funkce pro kontrolu verze Zabbix agenta a přiřazení do proměnné
 check_zabbix_agent_version() {
