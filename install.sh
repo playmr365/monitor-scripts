@@ -55,8 +55,15 @@ set_server_type() {
     esac
 
 
+        # Zapsání vybraného typu serveru a služeb do values.sh s uvozovkami kolem názvů služeb
         echo "SERVER_TYPE=\"$SERVER_TYPE\"" > /monitors/values.sh
-        echo "SERVICES=(\"${SERVICES[@]}\")" >> /monitors/values.sh
+
+        # Explicitní zápis služeb s uvozovkami
+        echo -n "SERVICES=(" >> /monitors/values.sh
+        for service in "${SERVICES[@]}"; do
+        echo -n "\"$service\" " >> /monitors/values.sh
+        done
+        echo ")" >> /monitors/values.sh
 
 }
 
