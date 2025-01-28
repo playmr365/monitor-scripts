@@ -2,6 +2,10 @@
 
 # Vytvoření složky pro monitorování a přesun skriptů
 mkdir /monitors
+# Získání adresáře, kde se nachází tento skript
+SCRIPT_DIR=$(dirname "$(realpath "$0")")
+# Přechod do tohoto adresáře
+cd "$SCRIPT_DIR" || exit 1
 mv src/* /monitors/
 chmod +x /monitors/*.sh
 rm -rf src
