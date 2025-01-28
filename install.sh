@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Vytvoření složky pro monitorování a přesun skriptů
-mkdir /monitors
+mkdir /opt/monitor-slama
 # Získání adresáře, kde se nachází tento skript
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 # Přechod do tohoto adresáře
 cd "$SCRIPT_DIR" || exit 1
-mv src/* /monitors/
-chmod +x /monitors/*.sh
+mv src/* /opt/monitor-slama/
+chmod +x /opt/monitor-slama/*.sh
 rm -rf src
 source ./setup.sh
 
@@ -15,7 +15,7 @@ source ./setup.sh
 add_to_crontab() {
     script_name="$1"
     schedule="$2"
-    cron_entry="$schedule /monitors/$script_name.sh >/dev/null 2>&1"
+    cron_entry="$schedule /opt/monitor-slama/$script_name.sh >/dev/null 2>&1"
     (crontab -l 2>/dev/null; echo "$cron_entry") | crontab -
 }
 
@@ -60,14 +60,14 @@ set_server_type() {
 
 
         # Zapsání vybraného typu serveru a služeb do values.sh s uvozovkami kolem názvů služeb
-        echo "SERVER_TYPE=\"$SERVER_TYPE\"" >> /monitors/values.sh
+        echo "SERVER_TYPE=\"$SERVER_TYPE\"" >> /opt/monitor-slama/values.sh
 
         # Explicitní zápis služeb s uvozovkami
-        echo -n "SERVICES=(" >> /monitors/values.sh
+        echo -n "SERVICES=(" >> /opt/monitor-slama/values.sh
         for service in "${SERVICES[@]}"; do
-        echo -n "\"$service\" " >> /monitors/values.sh
+        echo -n "\"$service\" " >> /opt/monitor-slama/values.sh
         done
-        echo ")" >> /monitors/values.sh
+        echo ")" >> /opt/monitor-slama/values.sh
 
 }
 
@@ -101,7 +101,7 @@ check_zabbix_agent_version() {
 # Funkce pro zapsání NTfy serveru do values.sh
 set_ntfy_server() {
     read -p "Zadejte URL pro NTfy server (např. http://ntfy.server.com): " ntfy_server
-    echo "NTFY_SERVER=\"$ntfy_server\"" >> /monitors/values.sh
+    echo "NTFY_SERVER=\"$ntfy_server\"" >> /opt/monitor-slama/values.sh
 }
 
 # Zapsání serverového typu a služeb do values.sh

@@ -1,5 +1,5 @@
 #!/bin/bash
-source /monitors/values.sh
+source ./values.sh
 # Hranice vytížení CPU pro upozornění (v procentech)
 cpu_threshold=70
 
