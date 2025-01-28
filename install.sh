@@ -60,7 +60,6 @@ set_server_type() {
 }
 
 
-# Funkce pro zjištění verze Zabbix agenta
 # Funkce pro kontrolu stavu Zabbix agenta přes systemctl
 check_zabbix_agent_version() {
     # Kontrola, zda je zabbix-agent aktivní
@@ -83,25 +82,6 @@ check_zabbix_agent_version() {
     fi
 }
 
-
-# Funkce pro kontrolu verze Zabbix agenta a přiřazení do proměnné
-check_zabbix_agent_version() {
-    version=$(get_zabbix_agent_version)
-    
-    if [[ "$version" == "not_installed" ]]; then
-        echo "Zabbix agent není nainstalován."
-        ZABBIX_AGENT_VERSION="not_installed"
-    elif [[ "$version" == "v1"* ]]; then
-        echo "Zabbix agent verze 1 detekován."
-        ZABBIX_AGENT_VERSION="v1"
-    elif [[ "$version" == "v2"* ]]; then
-        echo "Zabbix agent verze 2 detekován."
-        ZABBIX_AGENT_VERSION="v2"
-    else
-        echo "Neznámá verze Zabbix agenta."
-        ZABBIX_AGENT_VERSION="unknown"
-    fi
-}
 
 # Funkce pro zapsání NTfy serveru do values.sh
 set_ntfy_server() {
