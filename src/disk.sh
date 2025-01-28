@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Načtení hodnot ze souboru
-source ./values.sh
+source /opt/monitor-slama/values.sh
 
 # Funkce pro získání celkové a volné kapacity disku (v GB)
 get_disk_info() {

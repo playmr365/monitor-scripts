@@ -1,5 +1,5 @@
 #!/bin/bash
-source ./values.sh
+source /opt/monitor-slama/values.sh
 
 # Získání dostupné paměti v MB pomocí /proc/meminfo
 available_memory=$(awk '/MemAvailable/ {print $2 / 1024}' /proc/meminfo)
