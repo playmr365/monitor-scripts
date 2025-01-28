@@ -60,7 +60,7 @@ set_server_type() {
 
 
         # Zapsání vybraného typu serveru a služeb do values.sh s uvozovkami kolem názvů služeb
-        echo "SERVER_TYPE=\"$SERVER_TYPE\"" > /monitors/values.sh
+        echo "SERVER_TYPE=\"$SERVER_TYPE\"" >> /monitors/values.sh
 
         # Explicitní zápis služeb s uvozovkami
         echo -n "SERVICES=(" >> /monitors/values.sh
