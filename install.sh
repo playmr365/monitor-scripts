@@ -28,7 +28,12 @@ set_server_type() {
     echo "c) PMG"
     echo "d) Full stack"
     echo "e) Other"
+    if [ -z "$1" ]; then
     read -p "Zadejte volbu (a, b, c, d, e): " server_type
+    else
+    server_type="$1"
+    fi
+
 
     case $server_type in
         a)  # Web server
@@ -100,7 +105,12 @@ check_zabbix_agent_version() {
 
 # Funkce pro zapsání NTfy serveru do values.sh
 set_ntfy_server() {
+    if [ -z "$2" ]; then
     read -p "Zadejte URL pro NTfy server (např. http://ntfy.server.com): " ntfy_server
+    else
+    ntfy_server="$2"
+    fi
+
     echo "NTFY_SERVER=\"$ntfy_server\"" >> /opt/monitor-slama/values.sh
 }
 
