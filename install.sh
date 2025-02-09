@@ -10,7 +10,8 @@ mv src/* /opt/monitor-slama/
 chmod +x /opt/monitor-slama/*.sh
 rm -rf src
 source ./setup.sh
-
+mode="$1"
+ntfy="$2"
 # Funkce pro přidání skriptu do crontabu
 add_to_crontab() {
     script_name="$1"
@@ -22,8 +23,8 @@ add_to_crontab() {
 # Funkce pro zapsání výběru serveru do souboru values.sh
 # Funkce pro zapsání serverového typu a služeb do values.sh
 set_server_type() {
-    if [ -n "$1" ]; then
-        server_type="$1"
+    if [ -n "$mode" ]; then
+        server_type="$mode"
     else
         echo "Vyberte typ serveru:"
         echo "a) Web server"
@@ -105,8 +106,8 @@ check_zabbix_agent_version() {
 
 # Funkce pro zapsání NTfy serveru do values.sh
 set_ntfy_server() {
-    if [ -n "$2" ]; then
-    ntfy_server="$2"
+    if [ -n "$ntfy" ]; then
+    ntfy_server="$ntfy"
     
     else
     read -p "Zadejte URL pro NTfy server (např. http://ntfy.server.com): " ntfy_server
