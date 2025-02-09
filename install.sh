@@ -22,16 +22,16 @@ add_to_crontab() {
 # Funkce pro zapsání výběru serveru do souboru values.sh
 # Funkce pro zapsání serverového typu a služeb do values.sh
 set_server_type() {
-    echo "Vyberte typ serveru:"
-    echo "a) Web server"
-    echo "b) Mail server"
-    echo "c) PMG"
-    echo "d) Full stack"
-    echo "e) Other"
-    if [ -z "$1" ]; then
-    read -p "Zadejte volbu (a, b, c, d, e): " server_type
+    if [ -n "$1" ]; then
+        server_type="$1"
     else
-    server_type="$1"
+        echo "Vyberte typ serveru:"
+        echo "a) Web server"
+        echo "b) Mail server"
+        echo "c) PMG"
+        echo "d) Full stack"
+        echo "e) Other"
+        read -p "Zadejte volbu (a, b, c, d, e): " server_type
     fi
 
 
@@ -105,10 +105,11 @@ check_zabbix_agent_version() {
 
 # Funkce pro zapsání NTfy serveru do values.sh
 set_ntfy_server() {
-    if [ -z "$2" ]; then
-    read -p "Zadejte URL pro NTfy server (např. http://ntfy.server.com): " ntfy_server
-    else
+    if [ -n "$2" ]; then
     ntfy_server="$2"
+    
+    else
+    read -p "Zadejte URL pro NTfy server (např. http://ntfy.server.com): " ntfy_server
     fi
 
     echo "NTFY_SERVER=\"$ntfy_server\"" >> /opt/monitor-slama/values.sh
