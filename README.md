@@ -1,6 +1,8 @@
 # Monitorovací scripty pro servery s napojením na NTFY
 ## Instalace
-- instalaci proveďte tak že k sobě nakolujte repozitář a pod uživatelem root spusťte install.sh
+- instalaci proveďte tak že do /usr/local/bin/ nahrajete binarni soubor a poté do /etc/monitor-slama.conf vložíte config 
+- monitor-slama install - nainstaluje zavyslosti a doda systemd službu
+- monitor-slama check - zkontroluje zda je vše ok
 
 ## Správa
-- pokud chcete upravit nastavení limitů a adresu ntfy proveďte to v /opt/monitor-slama/values.sh zde můžete nastavit to nejčastější
+- pokud chcete upravit nastavení upravte jej v souboru /etc/monitor-slama poté restartujte systemd službu monitor-slama
